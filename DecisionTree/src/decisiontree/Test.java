@@ -6,22 +6,31 @@
 package decisiontree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  * @author Micke
  */
 public class Test {
-    //IN PROGRESS
-    public float testAccuracy(ArrayList<Integer> d, ArrayList<Integer> p){
+
+    public float testAccuracy(HashMap<String, ArrayList> real, HashMap<String, ArrayList> pred) {
         float score = 0;
-        
-        for(int i = 0; i < d.size(); i++){ //Checks how many predictions were correct
-            if(d.get(i).equals(p.get(i))){
-                score++;
+        int j = 0;
+        for (int i = 0; i < pred.get("ID").size(); i++) { //Checks how many predictions were correct
+
+            if (real.get("ID").get(i).equals(pred.get("ID").get(j))) { //Checks if the ID's are identical
+
+                if (real.get("Survived").get(i).equals(pred.get("Survived").get(j))) { //Checks if the prediction was correct
+
+                    score++;
+
+                }
+                j++; //Increments the prediction arraylist when the ID of the real list is the same
+                
             }
+
         }
-        return score / d.size() * 100; //Calculates the percentage of the accuracy
-        
+        return score / pred.get("ID").size() * 100; //Calculates the percentage of the accuracy
     }
 }

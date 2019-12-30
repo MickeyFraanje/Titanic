@@ -14,11 +14,13 @@ import java.util.HashMap;
  */
 public class DecisionTree {
 
-    ArrayList<Integer> prediction = new ArrayList();
+    HashMap<String, ArrayList> prediction = new HashMap<>();
  
     void tree(HashMap<String, ArrayList> test, HashMap<String, ArrayList> dataset) {
         Node node = new Node();
         AgeNode ageNode = new AgeNode();
+
+        ArrayList<Integer> survival = new ArrayList();
         
         prediction.clear(); //Clears the prediction ArrayList so it can predict on a new dataset
         
@@ -63,12 +65,14 @@ public class DecisionTree {
             }else{
                 survived = 1;
             }
-            prediction.add(survived);
+            survival.add(survived);
             
         }
+        prediction.put("ID", test.get("ID"));
+        prediction.put("Survived", survival);
 
     }
-    ArrayList<Integer> getPrediction(){
+    HashMap<String, ArrayList> getPrediction(){
         return prediction;
     }
 }

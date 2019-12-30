@@ -23,15 +23,15 @@ public class DAO {
         SurvivalParser sp = new SurvivalParser();
         Test test = new Test();
 
-        HashMap<String, ArrayList> trainingData = new HashMap<> (loader.getDataset("train.csv"));
-        HashMap<String, ArrayList> testData = new HashMap<> (loader.getDataset("test.csv"));
-        HashMap<Integer, Integer> survivalData = new HashMap<> (sp.getSurvival("gender_submission"));
-        
+        HashMap<String, ArrayList> trainingData = new HashMap<>(loader.getDataset("train.csv"));
+        HashMap<String, ArrayList> testData = new HashMap<>(loader.getDataset("test.csv"));
+        HashMap<String, ArrayList> survivalData = new HashMap<>(sp.getSurvival("gender_submission.csv"));
+
         tree.tree(trainingData, trainingData);
-        System.out.println(tree.getPrediction());
-        
+
         tree.tree(testData, trainingData);
-        System.out.println(tree.getPrediction());
+        
+        System.out.println(test.testAccuracy(survivalData, tree.getPrediction()));
 
     }
 }

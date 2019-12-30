@@ -21,6 +21,7 @@ public class CSVLoader {
 
     public HashMap getDataset(String file) throws FileNotFoundException {
         
+        ArrayList<Integer> id = new ArrayList();
         ArrayList<Integer> survived = new ArrayList();
         ArrayList<Integer> pClass = new ArrayList();
         ArrayList<String> sex = new ArrayList();
@@ -43,6 +44,7 @@ public class CSVLoader {
                     //Skips the line if the age feature has missing values
                 } else {
                     //Adds each feature to its own ArrayList in its apropriate datatype
+                    id.add(Integer.valueOf(features[0]));
                     survived.add(Integer.valueOf(features[1]));
                     pClass.add(Integer.valueOf(features[2]));
                     sex.add(features[5]);
@@ -61,6 +63,7 @@ public class CSVLoader {
                     //Skips the line if the age feature has missing values
                 } else {
                     //Adds each feature to its own ArrayList in its apropriate datatype
+                    id.add(Integer.valueOf(features[0]));
                     pClass.add(Integer.valueOf(features[1]));
                     sex.add(features[4]);
                     age.add(Float.valueOf(features[5]));
@@ -71,6 +74,7 @@ public class CSVLoader {
             }
         }
         //Adds each feature list to the dataset
+        dataset.put("ID", id);
         dataset.put("Survived", survived);
         dataset.put("Class", pClass);
         dataset.put("Sex", sex);

@@ -7,6 +7,7 @@ package decisiontree;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,16 +17,29 @@ import java.util.Scanner;
  */
 public class SurvivalParser {
 
-    HashMap<Integer, Integer> survival = new HashMap<>();
+   HashMap<String, ArrayList> survival = new HashMap<>();
 
-    public HashMap<Integer, Integer> getSurvival(String file) throws FileNotFoundException {
+    public HashMap<String, ArrayList> getSurvival(String file) throws FileNotFoundException {
+        
+        ArrayList<Integer> id = new ArrayList();
+        ArrayList<Integer> survived = new ArrayList();
+        
         Scanner scanner = new Scanner(new File(file));
+        
+        //Separates the header from the rest of the dataset
+        String header = scanner.nextLine();
+        
+        //Adds the survival column to its own ArrayList
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] features = line.split(",");
-            survival.put(Integer.valueOf(features[0]), Integer.valueOf(features[1]));
-
+            
+            id.add(Integer.valueOf(features[0]));
+            survived.add(Integer.valueOf(features[1]));
         }
+        survival.put("ID", id);
+        survival.put("Survived", survived);
+        
         return survival;
     }
 }
