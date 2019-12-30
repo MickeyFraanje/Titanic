@@ -19,19 +19,36 @@ public class DAO {
 
     public static void main(String[] args) throws FileNotFoundException {
         CSVLoader loader = new CSVLoader();
-        DecisionTree tree = new DecisionTree();
-        SurvivalParser sp = new SurvivalParser();
-        Test test = new Test();
-
         HashMap<String, ArrayList> trainingData = new HashMap<>(loader.getDataset("train.csv"));
         HashMap<String, ArrayList> testData = new HashMap<>(loader.getDataset("test.csv"));
-        HashMap<String, ArrayList> survivalData = new HashMap<>(sp.getSurvival("gender_submission.csv"));
+             
+        ArrayList<TreeResults> treeList = new ArrayList();
 
-        tree.tree(trainingData, trainingData);
-
-        tree.tree(testData, trainingData);
+        //Input the dataset you want to test, the dataset you want the model to train on, and the features you want the model to train on
+        treeList.add(createTree(testData, trainingData, "Class, Sex, Age, Sibsp, Parch"));
+        treeList.add(createTree(testData, trainingData, "Sex, Age, Sibsp, Parch"));
+        treeList.add(createTree(testData, trainingData, "Class, Sex, Age"));
+        treeList.add(createTree(testData, trainingData, "Sex"));
+        treeList.add(createTree(testData, trainingData, "Sibsp, Parch"));
         
-        System.out.println(test.testAccuracy(survivalData, tree.getPrediction()));
 
+    }
+    static TreeResults createTree(HashMap test, HashMap train, String features) throws FileNotFoundException{
+        DecisionTree tree = new DecisionTree();
+        tree.tree(test, train, features);
+        
+        SurvivalParser sp = new SurvivalParser();
+        HashMap<String, ArrayList> survivalData = new HashMap<>(sp.getSurvival("gender_submission.csv"));
+        
+        Test t = new Test();
+        
+        TreeResults result = new TreeResults(t.testAccuracy(survivalData, tree.getPrediction()), features);
+        
+        System.out.println("The accuracy is: "+ result.accuracy + "% with features: "+features);
+        
+        return result;
+    }
+    static void bestTree(ArrayList t){
+        
     }
 }
